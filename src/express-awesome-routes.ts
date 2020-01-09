@@ -10,39 +10,40 @@ export enum ContainerTypes {
   Params = 'params',
 }
 
+export enum RouterHandlers {
+  Get = 'get',
+  Post = 'post',
+  Delete = 'delete',
+  Head = 'head',
+  Options = 'options',
+  Trace = 'trace',
+  Copy = 'copy',
+  Lock = 'lock',
+  Mkcol = 'mkcol',
+  Move = 'move',
+  Purge = 'purge',
+  Propfind = 'propfind',
+  Proppatch = 'proppatch',
+  Unlock = 'unlock',
+  Report = 'report',
+  Mkactivity = 'mkactivity',
+  Checkout = 'checkout',
+  Merge = 'merge',
+  MSearch = 'm-search',
+  Notify = 'notify',
+  Subscribe = 'subscribe',
+  Unsubscribe = 'unsubscribe',
+  Batch = 'patch',
+  Search = 'search',
+  Connect = 'connect',
+}
+
 type ValidationTypes = ContainerTypes.Body | ContainerTypes.Fields | ContainerTypes.Headers | ContainerTypes.Params | ContainerTypes.Query;
 
 interface ValidatorOpts {
   type: ValidationTypes;
   schema: Joi.Schema;
 }
-
-type RouterHandlers =
-  | 'get'
-  | 'post'
-  | 'delete'
-  | 'head'
-  | 'options'
-  | 'trace'
-  | 'copy'
-  | 'lock'
-  | 'mkcol'
-  | 'move'
-  | 'purge'
-  | 'propfind'
-  | 'proppatch'
-  | 'unlock'
-  | 'report'
-  | 'mkactivity'
-  | 'checkout'
-  | 'merge'
-  | 'm-search'
-  | 'notify'
-  | 'subscribe'
-  | 'unsubscribe'
-  | 'patch'
-  | 'search'
-  | 'connect';
 
 /**
  *
