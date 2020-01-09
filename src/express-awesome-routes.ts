@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction, RequestHandler, Router } from 'express';
-import { createValidator, ExpressJoiInstance } from 'express-joi-validation';
-import Joi from '@hapi/joi';
+import { createValidator, ExpressJoiInstance, ExpressJoiConfig, ExpressJoiContainerConfig } from 'express-joi-validation';
+import { ObjectSchema } from '@hapi/joi';
 
+/**
+ * Contain ContainerTypes defined in express-joi-validation library.
+ *
+ * @export
+ * @enum {number}
+ */
 export enum ContainerTypes {
   Body = 'body',
   Query = 'query',
@@ -10,7 +16,13 @@ export enum ContainerTypes {
   Params = 'params',
 }
 
-export enum RouterHandlers {
+/**
+ * Contain RouterHandlers options defined in express 4.x.x.
+ *
+ * @export
+ * @enum {number}
+ */
+export enum ExpressRouterHandlers {
   Get = 'get',
   Post = 'post',
   Delete = 'delete',
@@ -38,11 +50,10 @@ export enum RouterHandlers {
   Connect = 'connect',
 }
 
-type ValidationTypes = ContainerTypes.Body | ContainerTypes.Fields | ContainerTypes.Headers | ContainerTypes.Params | ContainerTypes.Query;
-
-interface ValidatorOpts {
-  type: ValidationTypes;
-  schema: Joi.Schema;
+export interface ValidatorOpts {
+  type: ContainerTypes;
+  schema: ObjectSchema;
+  opts?: ExpressJoiContainerConfig;
 }
 
 /**
@@ -54,26 +65,31 @@ interface BaseRoute {
   route: string;
   middlewares?: RequestHandler[];
 }
-interface Route extends BaseRoute {
-  routerHandler: RouterHandlers;
+
+export interface Route extends BaseRoute {
+  routerHandler: ExpressRouterHandlers;
   controller: any;
   method: string;
   validators?: ValidatorOpts[];
 }
 
-interface ProxyRoute extends BaseRoute {
+export interface ProxyRoute extends BaseRoute {
   subRoutes: Routes;
 }
 
-type Routes = Array<Route | ProxyRoute>;
+export type Routes = Array<Route | ProxyRoute>;
 
 function _isDefined<T>(val: T | undefined | null): val is T {
   return typeof (val as T) !== 'undefined' && typeof (val as T) !== null;
 }
-
 export class ExpressAwesomeRoutes {
   private readonly _router: Router;
-  public constructor() {
+  private readonly _joiOpts: ExpressJoiConfig;
+
+  public constructor(joiOpts?: ExpressJoiConfig) {
+    this._joiOpts = joiOpts || {};
+    this._joiOpts.passError = joiOpts?.passError || false;
+    this._joiOpts.statusCode = joiOpts?.statusCode || 400;
     this._router = Router();
   }
 
@@ -100,6 +116,22 @@ export class ExpressAwesomeRoutes {
     return (val as ProxyRoute).subRoutes !== undefined;
   }
 
+  private _joinMiddlewares(prevMiddlewares: RequestHandler[] | undefined, newMiddlewares: RequestHandler[] | undefined): RequestHandler[] {
+    const prevMw: RequestHandler[] = _isDefined(prevMiddlewares) ? prevMiddlewares : [];
+    const newMw: RequestHandler[] = _isDefined(newMiddlewares) ? newMiddlewares : [];
+    const catMw: RequestHandler[] = prevMw.concat(newMw);
+    return catMw;
+  }
+
+  private _generateValidatorsHandlers(validatorsOpts: ValidatorOpts[] | undefined): RequestHandler[] {
+    const joiValidator: ExpressJoiInstance = createValidator(this._joiOpts);
+    const vOpts: ValidatorOpts[] = _isDefined(validatorsOpts) ? validatorsOpts : [];
+    const validatorHandlers: RequestHandler[] = vOpts.map((validatorOpts: ValidatorOpts) =>
+      joiValidator[validatorOpts.type](validatorOpts.schema),
+    );
+    return validatorHandlers;
+  }
+
   /**
    * Load routes recursively.
    *
@@ -110,38 +142,34 @@ export class ExpressAwesomeRoutes {
    * @param {any[]} [middlewares]
    * @memberof ExpressAwesomeRoutes
    */
-  private _loadRoutes(routes: Routes, router: Router, path?: string, middlewares?: any[]): void {
+  private _loadRoutes(routes: Routes, router: Router, path?: string, middlewares?: RequestHandler[]): void {
     routes.forEach((route: Route | ProxyRoute) => {
-      const parentMiddlewares: any[] = _isDefined(middlewares) ? middlewares : [];
-      const currentMiddlewares: any[] = _isDefined(route.middlewares) ? route.middlewares : [];
-      const allMiddlewares: any[] = parentMiddlewares.concat(currentMiddlewares);
+      const mw: RequestHandler[] = this._joinMiddlewares(middlewares, route.middlewares);
       const fullPath: string = _isDefined(path) ? this._createRoutePath(path, route.route) : route.route;
 
       if (this._isRoute(route)) {
-        const validator: ExpressJoiInstance = createValidator();
-        const validatorsOpts: ValidatorOpts[] = _isDefined(route.validators) ? route.validators : [];
-        const validatorHandlers: RequestHandler[] = validatorsOpts.map((validatorOpts: ValidatorOpts) => {
-          return validator[validatorOpts.type](validatorOpts.schema);
-        });
+        const validatorsHandlers: RequestHandler[] = this._generateValidatorsHandlers(route.validators);
         this._router[route.routerHandler](
           fullPath,
-          ...allMiddlewares,
-          ...validatorHandlers,
+          ...mw,
+          ...validatorsHandlers,
           this._routerHandler(route.controller, route.routerHandler),
         );
       } else if (this._isProxyRoute(route)) {
-        this._loadRoutes(route.subRoutes, router, fullPath, allMiddlewares);
+        this._loadRoutes(route.subRoutes, router, fullPath, mw);
       }
     });
   }
 
-  public create(routes: Routes): Router;
-  public create(routes: Routes, prefix: string): Router;
-  public create(routes: Routes, prefix: string, middlewares: any[]): Router;
-  public create(routes: Routes, prefix?: string, middlewares?: any[]): Router {
+  public add(routes: Routes): void;
+  public add(routes: Routes, prefix: string): void;
+  public add(routes: Routes, prefix: string, middlewares: any[]): void;
+  public add(routes: Routes, prefix?: string, middlewares?: any[]): void {
     const router: Router = Router();
-    // const validator: ExpressJoiInstance = createValidator({ passError: true });
     this._loadRoutes(routes, router, prefix, middlewares);
+  }
+
+  public getRoutes(): Router {
     return this._router;
   }
 }
@@ -152,10 +180,15 @@ export function createRoutes(routes: Routes, prefix: string, middlewares: any[])
 export function createRoutes(routes: Routes, prefix?: string, middlewares?: any[]): Router {
   const expressAwesomeRoutes: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
   if (middlewares !== undefined && prefix !== undefined) {
-    return expressAwesomeRoutes.create(routes, prefix, middlewares);
+    expressAwesomeRoutes.add(routes, prefix, middlewares);
+    return expressAwesomeRoutes.getRoutes();
   } else if (prefix !== undefined) {
-    return expressAwesomeRoutes.create(routes, prefix);
+    expressAwesomeRoutes.add(routes, prefix);
+    return expressAwesomeRoutes.getRoutes();
   } else {
-    return expressAwesomeRoutes.create(routes);
+    expressAwesomeRoutes.add(routes);
+    return expressAwesomeRoutes.getRoutes();
   }
 }
+
+export { ExpressJoiContainerConfig };
