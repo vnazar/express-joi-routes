@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, RequestHandler, Router } from 'express';
+import { Request, Response as ExpressResponse, NextFunction, RequestHandler, Router } from 'express';
 import { createValidator, ExpressJoiInstance, ExpressJoiConfig, ExpressJoiContainerConfig } from 'express-joi-validation';
 import { ObjectSchema } from '@hapi/joi';
 
@@ -93,13 +93,17 @@ export class ExpressAwesomeRoutes {
     this._router = Router();
   }
 
+  private _isResponse(val: any): val is ExpressResponse {
+    return val && val.app !== undefined;
+  }
+
   private _routerHandler(controller: any, method: string): RequestHandler {
-    return (req: Request, res: Response, next: NextFunction): void => {
-      const result: any = new controller()[method](req, res, next);
+    return (req: Request, res: ExpressResponse, next: NextFunction): void => {
+      const result: ExpressResponse | Promise<ExpressResponse> = new controller()[method](req, res, next);
       if (result instanceof Promise) {
         result.then((result: any) => (_isDefined(result) ? res.send(result) : next()));
-      } else if (_isDefined(result)) {
-        res.json(result);
+      } else {
+        this._isResponse(result) ? next() : res.send(result);
       }
     };
   }
@@ -149,12 +153,7 @@ export class ExpressAwesomeRoutes {
 
       if (this._isRoute(route)) {
         const validatorsHandlers: RequestHandler[] = this._generateValidatorsHandlers(route.validators);
-        this._router[route.routerHandler](
-          fullPath,
-          ...mw,
-          ...validatorsHandlers,
-          this._routerHandler(route.controller, route.routerHandler),
-        );
+        this._router[route.routerHandler](fullPath, ...mw, ...validatorsHandlers, this._routerHandler(route.controller, route.method));
       } else if (this._isProxyRoute(route)) {
         this._loadRoutes(route.subRoutes, router, fullPath, mw);
       }
