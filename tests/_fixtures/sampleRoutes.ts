@@ -1,5 +1,5 @@
 import { Routes, ExpressRouterHandlers } from '../../src';
-import { FooController } from './sample-controller';
+import { FooController } from './sample.controller';
 
 export const basicRoute: Routes = [
   {
@@ -13,10 +13,19 @@ export const basicRoute: Routes = [
 const nestedRoutesChild: Routes = [
   {
     route: '/bar',
-    routerHandler: ExpressRouterHandlers.Post,
+    routerHandler: ExpressRouterHandlers.Get,
     controller: FooController,
     method: 'getBasic',
   },
 ];
 
 export const nestedRoutes: Routes = [{ route: '/foo', subRoutes: nestedRoutesChild }];
+
+export const routeWithWrongMethod: Routes = [
+  {
+    route: '/foo',
+    routerHandler: ExpressRouterHandlers.Get,
+    controller: FooController,
+    method: 'wrongMethod',
+  },
+];
