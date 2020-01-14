@@ -1,4 +1,4 @@
-import { Request, Response as ExpressResponse, NextFunction, RequestHandler, Router } from 'express';
+import { RequestHandler, Router } from 'express';
 import { createValidator, ExpressJoiInstance, ExpressJoiConfig, ExpressJoiContainerConfig } from 'express-joi-validation';
 import { ObjectSchema } from '@hapi/joi';
 
@@ -93,21 +93,6 @@ export class ExpressAwesomeRoutes {
     this._router = Router();
   }
 
-  private _isResponse(val: any): val is ExpressResponse {
-    return val && val.app !== undefined;
-  }
-
-  private _routerHandler(controller: any, method: string): RequestHandler {
-    return (req: Request, res: ExpressResponse, next: NextFunction): void => {
-      const result: ExpressResponse | Promise<ExpressResponse> = new controller()[method](req, res, next);
-      if (result instanceof Promise) {
-        result.then((result: any) => (_isDefined(result) ? res.send(result) : next()));
-      } else {
-        this._isResponse(result) ? next() : res.send(result);
-      }
-    };
-  }
-
   private _createRoutePath(prefix: string, path: string): string {
     return prefix + path;
   }
@@ -152,8 +137,13 @@ export class ExpressAwesomeRoutes {
       const fullPath: string = _isDefined(path) ? this._createRoutePath(path, route.route) : route.route;
 
       if (this._isRoute(route)) {
-        const validatorsHandlers: RequestHandler[] = this._generateValidatorsHandlers(route.validators);
-        this._router[route.routerHandler](fullPath, ...mw, ...validatorsHandlers, this._routerHandler(route.controller, route.method));
+        try {
+          const validatorsHandlers: RequestHandler[] = this._generateValidatorsHandlers(route.validators);
+          const ctrl: any = new route.controller();
+          this._router[route.routerHandler](fullPath, ...mw, ...validatorsHandlers, ctrl[route.method]);
+        } catch (error) {
+          throw new Error(error);
+        }
       } else if (this._isProxyRoute(route)) {
         this._loadRoutes(route.subRoutes, router, fullPath, mw);
       }
