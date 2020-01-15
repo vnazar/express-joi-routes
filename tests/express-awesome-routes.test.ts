@@ -1,4 +1,4 @@
-import { ExpressAwesomeRoutes, Route } from '../src';
+import { ExpressAwesomeRoutes } from '../src';
 import * as sampleRoutes from './_fixtures/sampleRoutes';
 import request, { Response } from 'supertest';
 import express, { Express } from 'express';
@@ -7,74 +7,74 @@ import { Router } from 'express';
 // Globals
 let app: Express;
 
-describe('add', () => {
-  describe('add', () => {
+describe('ExpressAwesomeRoutes', () => {
+  describe('+add()', () => {
     beforeEach(() => {
       app = express();
     });
 
-    it('add a simple route (first level route and without validations and middlewares) and respond successfully', () => {
+    it('load a simple route (first level route, without validations nor middlewares) succesfully.', () => {
       const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
       ear.add(sampleRoutes.basicRoute);
       const routes: Router = ear.getRoutes();
       app.use(routes);
 
-      const expectedRouterHandler: string = 'get';
-      const expectedRoutePath: string = '/foo';
-
-      // ASSSERTS
-      // Method
-      expect(routes.stack[0].route.stack[0].method).toEqual(expectedRouterHandler);
-      // Route path is ok
-      expect(routes.stack[0].route.path).toEqual(expectedRoutePath);
-      // Function handler type
+      // router handler
+      expect(routes.stack[0].route.stack[0].method).toEqual('get');
+      // route path
+      expect(routes.stack[0].route.path).toEqual('/foo');
+      // handler type
       expect(typeof routes.stack[0].route.stack[0].handle).toEqual('function');
+      // handler name
+      expect(routes.stack[0].route.stack[0].name).toEqual('getBasic');
+    });
+
+    it('request to a simple route (first level route, without validations nor middlewares) successfully.', () => {
+      const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
+      ear.add(sampleRoutes.basicRoute);
+      const routes: Router = ear.getRoutes();
+      app.use(routes);
+
       return request(app)
         .get('/foo')
+        .expect(200)
         .then((response: Response) => {
           expect(response.body).toEqual({ message: 'ok' });
         });
     });
-    it('add a simple route with wrong controller method and return an exception.', () => {
+
+    it('add a simple route with wrong controller method and throw an exception error.', () => {
       const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
-      ear.add(sampleRoutes.routeWithWrongMethod);
-      const routes: Router = ear.getRoutes();
-      app.use(routes);
-
-      const expectedRouterHandler: string = 'get';
-      const expectedRoutePath: string = '/foo';
-
-      //   console.log(routes.stack[0].route.stack[0]);
-      // ASSSERTS
-      // Method
-      expect(routes.stack[0].route.stack[0].method).toEqual(expectedRouterHandler);
-      // Route path is ok
-      expect(routes.stack[0].route.path).toEqual(expectedRoutePath);
-      // Function handler type
-      expect(typeof routes.stack[0].route.stack[0].handle).toEqual('function');
-      return request(app)
-        .get('/foo')
-        .expect(500);
+      expect(() => {
+        ear.add(sampleRoutes.routeWithWrongMethod);
+      }).toThrowError();
     });
-    it('add a nested route (two levels route and without validations and middlewares) and respond successfully', () => {
+
+    it('load a nested route (two levels route, without validations nor middlewares) successfully.', () => {
       const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
       ear.add(sampleRoutes.nestedRoutes);
       const routes: Router = ear.getRoutes();
       app.use(routes);
-      const expectedRouterHandler: string = 'get';
-      const expectedRoutePath: string = '/foo/bar';
 
+      // router handler
+      expect(routes.stack[0].route.stack[0].method).toEqual('get');
+      // route path
+      expect(routes.stack[0].route.path).toEqual('/foo/bar');
+      // handler type
+      expect(typeof routes.stack[0].route.stack[0].handle).toEqual('function');
+      // handler name
+      expect(routes.stack[0].route.stack[0].name).toEqual('getBasic');
+    });
+
+    it('request to a nested route (two levels route, without validations nor middlewares) successfully.', () => {
+      const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
+      ear.add(sampleRoutes.nestedRoutes);
+      const routes: Router = ear.getRoutes();
       app.use(routes);
 
-      // ASSSERTS
-      // Method
-      expect(routes.stack[0].route.stack[0].method).toEqual(expectedRouterHandler);
-      // Route path is ok
-      expect(routes.stack[0].route.path).toEqual(expectedRoutePath);
-      // Function handler type
-      expect(typeof routes.stack[0].route.stack[0].handle).toEqual('function');
       return request(app)
         .get('/foo/bar')
+        .expect(200)
         .then((response: Response) => {
           expect(response.body).toEqual({ message: 'ok' });
         });
