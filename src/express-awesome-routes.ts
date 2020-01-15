@@ -23,8 +23,11 @@ export enum ContainerTypes {
  * @enum {number}
  */
 export enum ExpressRouterHandlers {
+  All = 'all',
   Get = 'get',
   Post = 'post',
+  Put = 'put',
+  Patch = 'patch',
   Delete = 'delete',
   Head = 'head',
   Options = 'options',
@@ -45,7 +48,6 @@ export enum ExpressRouterHandlers {
   Notify = 'notify',
   Subscribe = 'subscribe',
   Unsubscribe = 'unsubscribe',
-  Batch = 'patch',
   Search = 'search',
   Connect = 'connect',
 }
@@ -105,6 +107,15 @@ export class ExpressAwesomeRoutes {
     return (val as ProxyRoute).subRoutes !== undefined;
   }
 
+  private _hasConstructor(obj: any): boolean {
+    try {
+      new obj();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   private _joinMiddlewares(prevMiddlewares: RequestHandler[] | undefined, newMiddlewares: RequestHandler[] | undefined): RequestHandler[] {
     const prevMw: RequestHandler[] = _isDefined(prevMiddlewares) ? prevMiddlewares : [];
     const newMw: RequestHandler[] = _isDefined(newMiddlewares) ? newMiddlewares : [];
@@ -139,7 +150,7 @@ export class ExpressAwesomeRoutes {
       if (this._isRoute(route)) {
         try {
           const validatorsHandlers: RequestHandler[] = this._generateValidatorsHandlers(route.validators);
-          const ctrl: any = new route.controller();
+          const ctrl: any = this._hasConstructor(route.controller) ? new route.controller() : route.controller;
           this._router[route.routerHandler](fullPath, ...mw, ...validatorsHandlers, ctrl[route.method]);
         } catch (error) {
           throw new Error(error);
