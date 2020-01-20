@@ -16,7 +16,7 @@ describe('ExpressAwesomeRoutes', () => {
       app.use(bodyParser.json());
     });
 
-    it('load a simple route (first level route, without validations nor middlewares) succesfully.', () => {
+    it('load simple routes (first level routes, without validations nor middlewares) succesfully.', () => {
       const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
       ear.add(sampleRoutes.routes1);
       const routes: Router = ear.getRoutes();
@@ -47,7 +47,7 @@ describe('ExpressAwesomeRoutes', () => {
       expect(routes.stack[1].route.stack[0].name).toEqual('postOne');
     });
 
-    it('load a simple route (first level route, with validation and middleware) succesfully.', async () => {
+    it('load simple routes (first level routes, with validation and middleware) succesfully.', async () => {
       const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
       ear.add(sampleRoutes.routes2);
       const routes: Router = ear.getRoutes();
@@ -100,7 +100,7 @@ describe('ExpressAwesomeRoutes', () => {
         .expect(200);
     });
 
-    it('load a complex route (three levels route, without validations nor middlewares) succesfully.', () => {
+    it('load complex routes (three levels route and basic route, without validations nor middlewares) succesfully.', () => {
       const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
       ear.add(sampleRoutes.routes3);
       const routes: Router = ear.getRoutes();
