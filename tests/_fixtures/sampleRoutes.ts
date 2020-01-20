@@ -14,7 +14,7 @@ export const routes1: Routes = [
   {
     route: '/foo/:id',
     method: Method.Post,
-    controller: ClassController,
+    controller: ModuleController,
     function: 'postOne',
   },
 ];
@@ -37,7 +37,7 @@ export const routes2: Routes = [
     middlewares: [mw1],
   },
   {
-    route: '/fooa/:id',
+    route: '/foo/:id',
     method: Method.Post,
     controller: ModuleController,
     function: 'postOne',
@@ -45,26 +45,31 @@ export const routes2: Routes = [
     validators: [{ type: ContainerTypes.Body, schema: schemaA }],
   },
 ];
+const routes3ChildChild: Routes = [
+  {
+    route: '/bar',
+    method: Method.Post,
+    controller: ModuleController,
+    function: 'postOne',
+  },
+];
 
-export const basicModuleRoute: Routes = [
+const routes3Child: Routes = [
+  {
+    route: '/:id',
+    subRoutes: routes3ChildChild,
+  },
+];
+
+export const routes3: Routes = [
   {
     route: '/foo',
     method: Method.Get,
-    controller: ModuleController,
-    function: 'getBasic',
-  },
-];
-
-const nestedRoutesChild: Routes = [
-  {
-    route: '/bar',
-    method: Method.Get,
     controller: ClassController,
-    function: 'getBasic',
+    function: 'getOne',
   },
+  { route: '/foo', subRoutes: routes3Child },
 ];
-
-export const nestedRoutes: Routes = [{ route: '/foo', subRoutes: nestedRoutesChild }];
 
 export const routeWithWrongMethod: Routes = [
   {
