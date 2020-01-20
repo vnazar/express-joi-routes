@@ -1,55 +1,66 @@
-import { Routes, ExpressRouterHandlers } from '../../src';
+import { Routes, Method, ContainerTypes } from '../../src';
 import { ClassController } from './classController';
 import * as ModuleController from './moduleController';
+import Joi from '@hapi/joi';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 
-export const basicClassRoute: Routes = [
+export const routes1: Routes = [
   {
     route: '/foo',
-    routerHandler: ExpressRouterHandlers.Get,
+    method: Method.Get,
     controller: ClassController,
-    method: 'getOne',
+    function: 'getOne',
   },
   {
-    route: '/foo',
-    routerHandler: ExpressRouterHandlers.Get,
+    route: '/foo/:id',
+    method: Method.Post,
     controller: ClassController,
-    method: 'getOneAsync',
+    function: 'postOne',
   },
+];
+
+const schemaA: Joi.ObjectSchema = Joi.object({
+  attrA: Joi.string().required(),
+  attrB: Joi.string().required(),
+});
+
+const mw1: RequestHandler = (_req: Request, _res: Response, next: NextFunction) => {
+  next();
+};
+
+export const routes2: Routes = [
   {
     route: '/foo',
-    routerHandler: ExpressRouterHandlers.Post,
+    method: Method.Get,
+    controller: ClassController,
+    function: 'getOne',
+    middlewares: [mw1],
+  },
+  {
+    route: '/fooa/:id',
+    method: Method.Post,
     controller: ModuleController,
-    method: 'postOne',
-  },
-  {
-    route: '/foo/:id',
-    routerHandler: ExpressRouterHandlers.Delete,
-    controller: ClassController,
-    method: 'deleteOne',
-  },
-  {
-    route: '/foo/:id',
-    routerHandler: ExpressRouterHandlers.Put,
-    controller: ClassController,
-    method: 'putOne',
+    function: 'postOne',
+    middlewares: [mw1],
+    validators: [{ type: ContainerTypes.Body, schema: schemaA }],
   },
 ];
 
 export const basicModuleRoute: Routes = [
   {
     route: '/foo',
-    routerHandler: ExpressRouterHandlers.Get,
+    method: Method.Get,
     controller: ModuleController,
-    method: 'getBasic',
+    function: 'getBasic',
   },
 ];
 
 const nestedRoutesChild: Routes = [
   {
     route: '/bar',
-    routerHandler: ExpressRouterHandlers.Get,
+    method: Method.Get,
     controller: ClassController,
-    method: 'getBasic',
+    function: 'getBasic',
   },
 ];
 
@@ -58,8 +69,8 @@ export const nestedRoutes: Routes = [{ route: '/foo', subRoutes: nestedRoutesChi
 export const routeWithWrongMethod: Routes = [
   {
     route: '/foo',
-    routerHandler: ExpressRouterHandlers.Get,
+    method: Method.Get,
     controller: ClassController,
-    method: 'wrongMethod',
+    function: 'wrongMethod',
   },
 ];

@@ -5,10 +5,6 @@ export class ClassController {
     res.status(200).json({ message: 'ok' });
   }
 
-  public async getOneAsync(_req: Request, res: Response): Promise<void> {
-    res.status(200).json({ message: 'ok' });
-  }
-
   public postOne(_req: Request, res: Response): void {
     res.status(200).json({ message: 'ok' });
   }
