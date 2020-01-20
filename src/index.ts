@@ -1,7 +1,7 @@
 import {
   ExpressAwesomeRoutes,
   ContainerTypes,
-  ExpressRouterHandlers,
+  Method,
   ValidatorOpts,
   Route,
   ProxyRoute,
@@ -10,14 +10,4 @@ import {
   ExpressJoiContainerConfig,
 } from './express-awesome-routes';
 
-export {
-  ExpressAwesomeRoutes,
-  ContainerTypes,
-  ExpressRouterHandlers,
-  ValidatorOpts,
-  Route,
-  ProxyRoute,
-  Routes,
-  createRoutes,
-  ExpressJoiContainerConfig,
-};
+export { ExpressAwesomeRoutes, ContainerTypes, Method, ValidatorOpts, Route, ProxyRoute, Routes, createRoutes, ExpressJoiContainerConfig };

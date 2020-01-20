@@ -22,7 +22,7 @@ export enum ContainerTypes {
  * @export
  * @enum {number}
  */
-export enum ExpressRouterHandlers {
+export enum Method {
   All = 'all',
   Get = 'get',
   Post = 'post',
@@ -69,9 +69,9 @@ interface BaseRoute {
 }
 
 export interface Route extends BaseRoute {
-  routerHandler: ExpressRouterHandlers;
+  method: Method;
   controller: any;
-  method: string;
+  function: string;
   validators?: ValidatorOpts[];
 }
 
@@ -100,7 +100,7 @@ export class ExpressAwesomeRoutes {
   }
 
   private _isRoute(val: Route | ProxyRoute): val is Route {
-    return (val as Route).routerHandler !== undefined;
+    return (val as Route).method !== undefined;
   }
 
   private _isProxyRoute(val: Route | ProxyRoute): val is ProxyRoute {
@@ -151,7 +151,7 @@ export class ExpressAwesomeRoutes {
         try {
           const validatorsHandlers: RequestHandler[] = this._generateValidatorsHandlers(route.validators);
           const ctrl: any = this._hasConstructor(route.controller) ? new route.controller() : route.controller;
-          this._router[route.routerHandler](fullPath, ...mw, ...validatorsHandlers, ctrl[route.method]);
+          this._router[route.method](fullPath, ...mw, ...validatorsHandlers, ctrl[route.function]);
         } catch (error) {
           throw new Error(error);
         }
@@ -179,6 +179,7 @@ export function createRoutes(routes: Routes, prefix: string): Router;
 export function createRoutes(routes: Routes, prefix: string, middlewares: any[]): Router;
 export function createRoutes(routes: Routes, prefix?: string, middlewares?: any[]): Router {
   const expressAwesomeRoutes: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
+
   if (middlewares !== undefined && prefix !== undefined) {
     expressAwesomeRoutes.add(routes, prefix, middlewares);
     return expressAwesomeRoutes.getRoutes();
