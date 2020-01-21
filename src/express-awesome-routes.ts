@@ -84,14 +84,20 @@ export type Routes = Array<Route | ProxyRoute>;
 function _isDefined<T>(val: T | undefined | null): val is T {
   return typeof (val as T) !== 'undefined' && typeof (val as T) !== null;
 }
+
+export interface ExpressAwesomeRoutesOptions {
+  joiPassError?: boolean;
+  joiStatusCode?: number;
+}
+
 export class ExpressAwesomeRoutes {
   private readonly _router: Router;
-  private readonly _joiOpts: ExpressJoiConfig;
+  private readonly _options: ExpressAwesomeRoutesOptions;
 
-  public constructor(joiOpts?: ExpressJoiConfig) {
-    this._joiOpts = joiOpts || {};
-    this._joiOpts.passError = joiOpts?.passError || false;
-    this._joiOpts.statusCode = joiOpts?.statusCode || 400;
+  public constructor(options?: ExpressAwesomeRoutesOptions) {
+    this._options = options || {};
+    this._options.joiPassError = options?.joiPassError || false;
+    this._options.joiStatusCode = options?.joiStatusCode || 400;
     this._router = Router();
   }
 
@@ -124,7 +130,7 @@ export class ExpressAwesomeRoutes {
   }
 
   private _generateValidatorsHandlers(validatorsOpts: ValidatorOpts[] | undefined): RequestHandler[] {
-    const joiValidator: ExpressJoiInstance = createValidator(this._joiOpts);
+    const joiValidator: ExpressJoiInstance = createValidator(this._options);
     const vOpts: ValidatorOpts[] = _isDefined(validatorsOpts) ? validatorsOpts : [];
     const validatorHandlers: RequestHandler[] = vOpts.map((validatorOpts: ValidatorOpts) =>
       joiValidator[validatorOpts.type](validatorOpts.schema),
