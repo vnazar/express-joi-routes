@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from 'express';
-import { createRoutes, Routes, ContainerTypes, ExpressRouterHandlers } from '../../src/express-awesome-routes';
+import { createRoutes, Routes, ContainerTypes, ExpressRouterHandlers } from '../src/express-awesome-routes';
 import bodyParser from 'body-parser';
 import Joi, { ObjectSchema } from '@hapi/joi';
 
