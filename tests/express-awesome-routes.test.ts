@@ -34,7 +34,7 @@ describe('ExpressAwesomeRoutes', () => {
 
       // Module function export
       // router handler
-      expect(routes.stack[1].route.stack[0].method).toEqual('post');
+      expect(routes.stack[1].route.stack[0].method).toEqual('delete');
       // route path
       expect(routes.stack[1].route.path).toEqual('/foo/:id');
       // path param
@@ -44,10 +44,10 @@ describe('ExpressAwesomeRoutes', () => {
       // handler type
       expect(typeof routes.stack[1].route.stack[0].handle).toEqual('function');
       // handler name
-      expect(routes.stack[1].route.stack[0].name).toEqual('postOne');
+      expect(routes.stack[1].route.stack[0].name).toEqual('deleteOne');
     });
 
-    it('load simple routes (first level routes, with validation and middleware) succesfully.', async () => {
+    it('load complex routes (first level routes, with validation and middleware) succesfully.', async () => {
       const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
       ear.add(sampleRoutes.routes2);
       const routes: Router = ear.getRoutes();
@@ -100,7 +100,7 @@ describe('ExpressAwesomeRoutes', () => {
         .expect(200);
     });
 
-    it('load complex routes (three levels route and basic route, without validations nor middlewares) succesfully.', () => {
+    it('load complex routes (nested routes with middlewares and validations) succesfully.', async () => {
       const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
       ear.add(sampleRoutes.routes3);
       const routes: Router = ear.getRoutes();
@@ -116,7 +116,7 @@ describe('ExpressAwesomeRoutes', () => {
       // handler name
       expect(routes.stack[0].route.stack[0].name).toEqual('getOne');
 
-      // Module function export
+      // Class method export
       // router handler
       expect(routes.stack[1].route.stack[0].method).toEqual('post');
       // route path
@@ -125,10 +125,42 @@ describe('ExpressAwesomeRoutes', () => {
       expect(routes.stack[1].keys[0].name).toEqual('id');
       // path param length
       expect(routes.stack[1].keys.length).toEqual(1);
-      // handler type
+      // validator handler type
       expect(typeof routes.stack[1].route.stack[0].handle).toEqual('function');
+      // validator handler name
+      expect(routes.stack[1].route.stack[0].name).toEqual('expressJoiValidator');
+      // handler type
+      expect(typeof routes.stack[1].route.stack[1].handle).toEqual('function');
       // handler name
-      expect(routes.stack[1].route.stack[0].name).toEqual('postOne');
+      expect(routes.stack[1].route.stack[1].name).toEqual('postOne');
+
+      // Module function export
+      // router handler
+      expect(routes.stack[2].route.stack[0].method).toEqual('delete');
+      // route path
+      expect(routes.stack[2].route.path).toEqual('/bar/');
+      // middleware1 handler type
+      expect(typeof routes.stack[2].route.stack[0].handle).toEqual('function');
+      // middleware1 handler name
+      expect(routes.stack[2].route.stack[0].name).toEqual('mw1');
+      // middleware2 handler type
+      expect(typeof routes.stack[2].route.stack[1].handle).toEqual('function');
+      // middleware2 handler name
+      expect(routes.stack[2].route.stack[1].name).toEqual('mw2');
+      // handler type
+      expect(typeof routes.stack[2].route.stack[2].handle).toEqual('function');
+      // handler name
+      expect(routes.stack[2].route.stack[2].name).toEqual('deleteOne');
+
+      await request(app)
+        .post('/foo/1/bar')
+        .send({ attre: 1 })
+        .expect(400);
+
+      await request(app)
+        .post('/foo/1/bar')
+        .send({ attrA: 'foo', attrB: 'bar' })
+        .expect(200);
     });
   });
 });

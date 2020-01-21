@@ -13,9 +13,9 @@ export const routes1: Routes = [
   },
   {
     route: '/foo/:id',
-    method: Method.Post,
+    method: Method.Delete,
     controller: ModuleController,
-    function: 'postOne',
+    function: 'deleteOne',
   },
 ];
 
@@ -25,6 +25,10 @@ const schemaA: Joi.ObjectSchema = Joi.object({
 });
 
 const mw1: RequestHandler = (_req: Request, _res: Response, next: NextFunction) => {
+  next();
+};
+
+const mw2: RequestHandler = (_req: Request, _res: Response, next: NextFunction) => {
   next();
 };
 
@@ -45,21 +49,25 @@ export const routes2: Routes = [
     validators: [{ type: ContainerTypes.Body, schema: schemaA }],
   },
 ];
-const routes3ChildChild: Routes = [
+
+const routes3Child1Child: Routes = [
   {
     route: '/bar',
     method: Method.Post,
     controller: ModuleController,
     function: 'postOne',
+    validators: [{ type: ContainerTypes.Body, schema: schemaA }],
   },
 ];
 
-const routes3Child: Routes = [
+const routes3Child1: Routes = [
   {
     route: '/:id',
-    subRoutes: routes3ChildChild,
+    subRoutes: routes3Child1Child,
   },
 ];
+
+const routes3Child2: Routes = [{ route: '/', method: Method.Delete, controller: ModuleController, function: 'deleteOne' }];
 
 export const routes3: Routes = [
   {
@@ -68,7 +76,8 @@ export const routes3: Routes = [
     controller: ClassController,
     function: 'getOne',
   },
-  { route: '/foo', subRoutes: routes3Child },
+  { route: '/foo', subRoutes: routes3Child1 },
+  { route: '/bar', subRoutes: routes3Child2, middlewares: [mw1, mw2] },
 ];
 
 export const routeWithWrongMethod: Routes = [
