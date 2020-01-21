@@ -130,7 +130,10 @@ export class ExpressAwesomeRoutes {
   }
 
   private _generateValidatorsHandlers(validatorsOpts: ValidatorOpts[] | undefined): RequestHandler[] {
-    const joiValidator: ExpressJoiInstance = createValidator(this._options);
+    const joiValidator: ExpressJoiInstance = createValidator({
+      passError: this._options.joiPassError,
+      statusCode: this._options.joiStatusCode,
+    });
     const vOpts: ValidatorOpts[] = _isDefined(validatorsOpts) ? validatorsOpts : [];
     const validatorHandlers: RequestHandler[] = vOpts.map((validatorOpts: ValidatorOpts) =>
       joiValidator[validatorOpts.type](validatorOpts.schema),
