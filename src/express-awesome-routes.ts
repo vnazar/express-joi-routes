@@ -1,5 +1,5 @@
 import { RequestHandler, Router } from 'express';
-import { createValidator, ExpressJoiInstance, ExpressJoiConfig, ExpressJoiContainerConfig } from 'express-joi-validation';
+import { createValidator, ExpressJoiInstance, ExpressJoiContainerConfig } from 'express-joi-validation';
 import { ObjectSchema } from '@hapi/joi';
 
 /**
