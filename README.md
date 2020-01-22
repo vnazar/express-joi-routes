@@ -16,20 +16,20 @@ Package for express.js framework that allow to you santadarize your routes with 
       - [Route](#route)
       - [ProxyRoute](#proxyroute)
       - [Routes](#routes)
-    - [ValidationOptions](#validationoptions)
-    - [Method](#method)
-    - [ContainerTypes](#containertypes)
+      - [ValidationOptions](#validationoptions)
+      - [Method](#method)
+      - [ContainerTypes](#containertypes)
     - [ExpressAwesomeRoutes([options])](#expressawesomeroutesoptions)
-      - [Arguments (Typed)](#arguments-typed)
-      - [Example](#example-1)
+        - [Arguments (Typed)](#arguments-typed)
+        - [Example](#example-1)
       - [add(routes [, prefix][, middlewares])](#addroutes--prefix)
         - [Arguments (Typed)](#arguments-typed-1)
         - [Example](#example-2)
       - [getRoutes()](#getroutes)
         - [Example](#example-3)
     - [createRoutes(routes[,prefix][,middlewares])](#createroutesroutesprefix)
-      - [Arguments (Typed)](#arguments-typed-2)
-      - [Example](#example-4)
+        - [Arguments (Typed)](#arguments-typed-2)
+        - [Example](#example-4)
   - [License](#license)
 
 ## About
@@ -126,7 +126,7 @@ In **Express Awesome Routes** you can build your own routes using defined object
 ```ts
 export interface Route {
   route: string;
-  method: Method | string;
+  method: Method;
   controller: any;
   function: string;
   middlewares?: RequestHandler[];
@@ -154,7 +154,7 @@ type Routes = Array<Route | ProxyRoute>;
 
 ```ts
 interface ValidatorOptions {
-  type: ContainerTypes | string;
+  type: ContainerTypes;
   schema: ObjectSchema;
   opts?: ExpressJoiContainerConfig;
 }
