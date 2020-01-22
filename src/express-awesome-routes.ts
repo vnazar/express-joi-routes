@@ -53,14 +53,14 @@ export enum Method {
 }
 
 export interface ValidatorOptions {
-  type: ContainerTypes | string;
+  type: ContainerTypes;
   schema: ObjectSchema;
   opts?: ExpressJoiContainerConfig;
 }
 
 export interface Route {
   route: string;
-  method: Method | string;
+  method: Method;
   controller: any;
   function: string;
   middlewares?: RequestHandler[];
