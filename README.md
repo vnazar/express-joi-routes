@@ -1,6 +1,6 @@
 # Expres Awesome Routes
 
-[![Coverage Status](https://coveralls.io/repos/github/vnazar/express-awesome-routes/badge.svg?branch=develop)](https://coveralls.io/github/vnazar/express-awesome-routes?branch=develop)
+[![Build Status](https://travis-ci.org/vnazar/express-awesome-routes.svg?branch=master)](https://travis-ci.org/vnazar/express-awesome-routes) [![Coverage Status](https://coveralls.io/repos/github/vnazar/express-awesome-routes/badge.svg?branch=develop)](https://coveralls.io/github/vnazar/express-awesome-routes?branch=develop)
 
 Package for express.js framework that allow to you santadarize your routes with the flexibility as you want.
 
