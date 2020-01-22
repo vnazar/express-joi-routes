@@ -1,5 +1,7 @@
 # Expres Awesome Routes
 
+[![Coverage Status](https://coveralls.io/repos/github/vnazar/express-awesome-routes/badge.svg?branch=develop)](https://coveralls.io/github/vnazar/express-awesome-routes?branch=develop)
+
 Package for express.js framework that allow to you santadarize your routes with the flexibility as you want.
 
 ## Table of Content
@@ -20,16 +22,16 @@ Package for express.js framework that allow to you santadarize your routes with 
       - [Method](#method)
       - [ContainerTypes](#containertypes)
     - [ExpressAwesomeRoutes([options])](#expressawesomeroutesoptions)
-        - [Arguments (Typed)](#arguments-typed)
-        - [Example](#example-1)
+      - [Arguments (Typed)](#arguments-typed)
+      - [Example](#example-1)
       - [add(routes [, prefix][, middlewares])](#addroutes--prefix)
         - [Arguments (Typed)](#arguments-typed-1)
         - [Example](#example-2)
       - [getRoutes()](#getroutes)
         - [Example](#example-3)
     - [createRoutes(routes[,prefix][,middlewares])](#createroutesroutesprefix)
-        - [Arguments (Typed)](#arguments-typed-2)
-        - [Example](#example-4)
+      - [Arguments (Typed)](#arguments-typed-2)
+      - [Example](#example-4)
   - [License](#license)
 
 ## About
