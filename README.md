@@ -196,7 +196,7 @@ Method.Connnect;
 
 #### ContainerTypes
 
-Object (enum in TS) that includes the validation types (see [express-joi-validaiton](https://www.npmjs.com/package/express-joi-validation)).
+Object (enum in TS) that includes the validation types (see [express-joi-validation](https://www.npmjs.com/package/express-joi-validation)).
 
 ```ts
 ContainerTypes.Body;
