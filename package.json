@@ -1,7 +1,7 @@
 {
   "name": "express-awesome-routes",
   "version": "1.0.0",
-  "description": "Package with useful tools for routes implementation and validation.",
+  "description": "Package for express.js framework that allow to you santadarize your routes with the flexibility as you want.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -13,12 +13,16 @@
     "lint": "eslint --fix *",
     "coverage": "jest --coverage"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Vicente Nazar",
+  "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^16.1.8",
     "express": "^4.16.4",
     "express-joi-validation": "^4.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vnazar/express-awesome-routes.git"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
