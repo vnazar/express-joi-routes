@@ -3,20 +3,16 @@
 Package for express.js framework that allow to you santadarize your routes with the flexibility as you want.
 
 ## Table of Content
-* [About]()
-* [Features]()
-* [Example]()
-    * [JavaScript]()
-    * [TypesScript]()
-* [Documentation]()
-* [License]()
-
----
+* [About](#about)
+* [Features](#features)
+* [Example](#example)
+    * [JavaScript](#javascript)
+    * [TypesScript](#typescript)
+* [Documentation](#documentation)
+* [License](#documentation)
 
 ## About
-The motivation to use this package is provide a cleaner code and facilitate DRY (Don't repeat yourself) principle.
-
----
+The motivation to use this package is provide a cleaner code and facilitate DRY (Don't repeat yourself) principle on tour routes.
 
 ## Features
 This library support the following features:
@@ -25,12 +21,8 @@ This library support the following features:
 * Add **Joi validators(@happi/joi)** to routes 
 * Set prefix to your routes
 
----
-
 ## Example
 Here is an example to use **express-awesome-routes** in the simplest way.
-
----
 
 ### JavaScript
 ```js
@@ -97,30 +89,28 @@ app.listen(3000, () => {
 
 ```
 
----
-
 ## Documentation
 The package includes the following methods.
 
 ### Structure
-* [ExpressAwesomeRoutes]()
-  * [add]()
-  * [getRoutes]()
-* [createRoutes]()
+* [ExpressAwesomeRoutes([options])](#expressawesomeroutesoptions)
+  * [add(routes[,prefix][,middlewares])](#addroutes--prefix-middlewares)
+  * [getRoutes()](#getroutes)
+* [createRoutes(routes[,prefix][,middlewares])](#createroutesroutesprefixmiddlewares)
 
-### ExpressAwesomeRoutes
-Class that instance a ExpressAwesomeRoutes object, allowing to you pass a set of options to configure it.
+### ExpressAwesomeRoutes([options])
+Class that instance a ExpressAwesomeRoutes object allowing to you pass a set of options to configure it.
 
-##### Arguments
+##### Arguments (Typed)
 ```ts
 ExpressAwesomeRoutes();
-ExpressAwesomeRoutes(options: ExpressAwesomeRoutes);
+ExpressAwesomeRoutes(options: ExpressAwesomeRoutesOptions);
 ```
 
-| Option        | Description                                                                                                                                                                                                |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| joiPassError  | Equivalent to [passError](https://www.npmjs.com/package/express-joi-validation#createvalidatorconfig) option of [express-joi-validation](https://www.npmjs.com/package/express-joi-validation) package.    |
-| joiStatusCode | Equivalent to [statusCode](https://www.npmjs.com/package/express-joi-validation#createvalidatorconfig) option of [express-joi-validation]( https://www.npmjs.com/package/express-joi-validation ) package. |
+| ExpressAwesomeRoutesOptions | Description                                                                                                                                                                                                |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| joiPassError                | Equivalent to [passError](https://www.npmjs.com/package/express-joi-validation#createvalidatorconfig) option of [express-joi-validation](https://www.npmjs.com/package/express-joi-validation) package.    |
+| joiStatusCode               | Equivalent to [statusCode](https://www.npmjs.com/package/express-joi-validation#createvalidatorconfig) option of [express-joi-validation]( https://www.npmjs.com/package/express-joi-validation ) package. |
 
 ##### Example 
 ```ts
@@ -133,10 +123,10 @@ const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes({ passError: true, st
 ```
 
 
-#### add
+#### add(routes [, prefix][, middlewares])
 Method that add(s) route(s) to `Router` object (Express.js `Router`), passing the following arguments:
 
-##### Arguments
+##### Arguments (Typed)
 ```ts
 add(routes: Routes): void
 add(routes: Routes, prefix: string): void
@@ -167,7 +157,7 @@ const routes: Routes = [
 ear.add(routes, '/api/v1');
 ```
 
-#### getRoutes
+#### getRoutes()
 Method that return a `Router` object (Express.js `Router`) with the routes added by `add` method.
 
 ##### Example
@@ -176,10 +166,10 @@ const router: Router = ear.getRoutes();
 app.use(router);
 ```
 
-### createRoutes
+### createRoutes(routes[,prefix][,middlewares])
 Function that under the hood utilize [ExpressAwesomeRoutes]() class to create and get routes (`Router`) without call the above methods.
 
-##### Arguments
+##### Arguments (Typed)
 ```ts
 add(routes: Routes): Router
 add(routes: Routes, prefix: string): Router
@@ -209,8 +199,6 @@ const routes: Routes = [
 const router: Router = createRoutes(routes);
 app.use(router);
 ```
-
-----
 
 ## License
 MIT
