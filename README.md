@@ -55,7 +55,7 @@ Here is an example to use **express-awesome-routes** in the simplest way.
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
-const { createRoutes, Method } = require('../dist');
+const { createRoutes, Method } = require('express-awesome-routes');
 
 class Controller {
   getOne(_req, res) {
@@ -87,7 +87,7 @@ app.listen(3000, () => {
 ```ts
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import { createRoutes, Method, Routes } from '../dist';
+import { createRoutes, Method, Routes } from 'express-awesome-routes';
 
 class Controller {
   public getOne(_req: Request, res: Response): void {
