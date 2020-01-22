@@ -52,31 +52,25 @@ export enum Method {
   Connect = 'connect',
 }
 
-export interface ValidatorOpts {
-  type: ContainerTypes;
+export interface ValidatorOptions {
+  type: ContainerTypes | string;
   schema: ObjectSchema;
   opts?: ExpressJoiContainerConfig;
 }
 
-/**
- *
- *
- * @interface BaseRoute
- */
-interface BaseRoute {
+export interface Route {
   route: string;
-  middlewares?: RequestHandler[];
-}
-
-export interface Route extends BaseRoute {
-  method: Method;
+  method: Method | string;
   controller: any;
   function: string;
-  validators?: ValidatorOpts[];
+  middlewares?: RequestHandler[];
+  validators?: ValidatorOptions[];
 }
 
-export interface ProxyRoute extends BaseRoute {
+export interface ProxyRoute {
+  route: string;
   subRoutes: Routes;
+  middlewares?: RequestHandler[];
 }
 
 export type Routes = Array<Route | ProxyRoute>;
@@ -129,13 +123,13 @@ export class ExpressAwesomeRoutes {
     return catMw;
   }
 
-  private _generateValidatorsHandlers(validatorsOpts: ValidatorOpts[] | undefined): RequestHandler[] {
+  private _generateValidatorsHandlers(validatorsOpts: ValidatorOptions[] | undefined): RequestHandler[] {
     const joiValidator: ExpressJoiInstance = createValidator({
       passError: this._options.joiPassError,
       statusCode: this._options.joiStatusCode,
     });
-    const vOpts: ValidatorOpts[] = _isDefined(validatorsOpts) ? validatorsOpts : [];
-    const validatorHandlers: RequestHandler[] = vOpts.map((validatorOpts: ValidatorOpts) =>
+    const vOpts: ValidatorOptions[] = _isDefined(validatorsOpts) ? validatorsOpts : [];
+    const validatorHandlers: RequestHandler[] = vOpts.map((validatorOpts: ValidatorOptions) =>
       joiValidator[validatorOpts.type](validatorOpts.schema),
     );
     return validatorHandlers;
