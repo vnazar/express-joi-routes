@@ -1,6 +1,6 @@
 # Express Joi Routes
 
-[![Build Status](https://travis-ci.org/vnazar/express-joi-routes.svg?branch=master)](https://travis-ci.org/vnazar/express-joi-routes) [![Coverage Status](https://coveralls.io/repos/github/vnazar/express-joi-routes/badge.svg?branch=develop)](https://coveralls.io/github/vnazar/express-joi-routes?branch=develop)
+[![Build Status](https://travis-ci.org/vnazar/express-joi-routes.svg?branch=master)](https://travis-ci.org/vnazar/express-joi-routes) [![Coverage Status](https://coveralls.io/repos/github/vnazar/express-joi-routes/badge.svg)](https://coveralls.io/github/vnazar/express-joi-routes)
 
 Package for express.js framework that allow to you santadarize your routes with the flexibility as you want.
 
@@ -51,7 +51,7 @@ This library support the following features:
 ## Installation
 
 ```bash
-npm install express-joi-routes --save
+npm i --save express-joi-routes
 ```
 
 ## Example
