@@ -10,6 +10,7 @@ Package for express.js framework that allow to you santadarize your routes with 
   - [Table of Content](#table-of-content)
   - [About](#about)
   - [Features](#features)
+  - [Installation](#installation)
   - [Example](#example)
     - [JavaScript](#javascript)
     - [TypeScript](#typescript)
@@ -22,16 +23,16 @@ Package for express.js framework that allow to you santadarize your routes with 
       - [Method](#method)
       - [ContainerTypes](#containertypes)
     - [ExpressAwesomeRoutes([options])](#expressawesomeroutesoptions)
-      - [Arguments (Typed)](#arguments-typed)
-      - [Example](#example-1)
+        - [Arguments (Typed)](#arguments-typed)
+        - [Example](#example-1)
       - [add(routes [, prefix][, middlewares])](#addroutes--prefix)
         - [Arguments (Typed)](#arguments-typed-1)
         - [Example](#example-2)
       - [getRoutes()](#getroutes)
         - [Example](#example-3)
     - [createRoutes(routes[,prefix][,middlewares])](#createroutesroutesprefix)
-      - [Arguments (Typed)](#arguments-typed-2)
-      - [Example](#example-4)
+        - [Arguments (Typed)](#arguments-typed-2)
+        - [Example](#example-4)
   - [License](#license)
 
 ## About
@@ -42,10 +43,16 @@ The motivation to use this package is provide a cleaner code and facilitate DRY 
 
 This library support the following features:
 
-- Declare **routes**
-- Add **middleware(s)** to routes
-- Add **Joi validators(@happi/joi)** to routes
-- Set prefix to your routes
+- Declare **routes**.
+- Add **middleware(s)** to routes.
+- Add **Joi validators(@happi/joi)** to routes.
+- Set prefix to your routes.
+
+## Installation
+
+```bash
+npm install express-awesome-routes --save
+```
 
 ## Example
 
