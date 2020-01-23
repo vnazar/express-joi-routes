@@ -154,7 +154,7 @@ export class ExpressJoiRoutes {
         try {
           const validatorsHandlers: RequestHandler[] = this._generateValidatorsHandlers(route.validators);
           const ctrl: any = this._hasConstructor(route.controller) ? new route.controller() : route.controller;
-          this._router[route.method](fullPath, ...mw, ...validatorsHandlers, ctrl[route.function]);
+          this._router[route.method](fullPath, ...mw, ...validatorsHandlers, ctrl[route.function].bind(ctrl));
         } catch (error) {
           throw new Error(error);
         }
