@@ -1,7 +1,7 @@
 {
   "name": "express-joi-routes",
   "version": "1.0.0",
-  "description": "Package for express.js framework that allow to you standardize your routes, with @hapi/joi support.",
+  "description": "Module for Express.js that allows you to standardize your routes and validate their content with Joi.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

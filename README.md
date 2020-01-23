@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/vnazar/express-joi-routes.svg?branch=master)](https://travis-ci.org/vnazar/express-joi-routes) [![Coverage Status](https://coveralls.io/repos/github/vnazar/express-joi-routes/badge.svg)](https://coveralls.io/github/vnazar/express-joi-routes)
 
-Package for express.js framework that allow to you santadarize your routes with the flexibility as you want.
+Module for Express.js that allows you to standardize your routes and validate their content with [@happi/joi](https://github.com/hapijs/joi).
 
 ## Table of Content
 
@@ -25,7 +25,7 @@ Package for express.js framework that allow to you santadarize your routes with 
     - [ExpressJoiRoutes([options])](#expressjoiroutesoptions)
       - [Arguments (Typed)](#arguments-typed)
       - [Example](#example-1)
-      - [add(routes [, prefix][, middlewares])](#addroutes--prefix)
+      - [add(routes [,prefix][,middlewares])](#addroutes-prefix)
         - [Arguments (Typed)](#arguments-typed-1)
         - [Example](#example-2)
       - [getRoutes()](#getroutes)
@@ -37,7 +37,7 @@ Package for express.js framework that allow to you santadarize your routes with 
 
 ## About
 
-The motivation to use this package is provide a cleaner code and facilitate DRY (Don't repeat yourself) principle on tour routes.
+The motivation to use this package is improve the maintainability of your code and facilitate DRY (Don't repeat yourself) principle in your routes.
 
 ## Features
 
@@ -45,7 +45,7 @@ This library support the following features:
 
 - Declare **routes**.
 - Add **middleware(s)** to routes.
-- Add **Joi validators(@happi/joi)** to routes.
+- Add **Joi validators (@happi/joi)** to routes.
 - Set prefix to your routes.
 
 ## Installation
@@ -242,7 +242,7 @@ const ejr: ExpressJoiRoutes = new ExpressJoiRoutes();
 const ejr: ExpressJoiRoutes = new ExpressJoiRoutes({ passError: true, statusCode: 500 });
 ```
 
-#### add(routes [, prefix][, middlewares])
+#### add(routes [,prefix][,middlewares])
 
 Method that add(s) route(s) to `Router` object (Express.js `Router`), passing the following arguments:
 
