@@ -30,7 +30,7 @@ describe('ExpressJoiRoutes', () => {
       // handler type
       expect(typeof routes.stack[0].route.stack[0].handle).toEqual('function');
       // handler name
-      expect(routes.stack[0].route.stack[0].name).toEqual('getOne');
+      expect(routes.stack[0].route.stack[0].name).toEqual('bound getOne');
 
       // Module function export
       // router handler
@@ -44,7 +44,7 @@ describe('ExpressJoiRoutes', () => {
       // handler type
       expect(typeof routes.stack[1].route.stack[0].handle).toEqual('function');
       // handler name
-      expect(routes.stack[1].route.stack[0].name).toEqual('deleteOne');
+      expect(routes.stack[1].route.stack[0].name).toEqual('bound deleteOne');
     });
 
     it('load complex routes (first level routes, with validation and middleware) succesfully.', async () => {
@@ -65,7 +65,7 @@ describe('ExpressJoiRoutes', () => {
       // handler type
       expect(typeof routes.stack[0].route.stack[1].handle).toEqual('function');
       // handler name
-      expect(routes.stack[0].route.stack[1].name).toEqual('getOne');
+      expect(routes.stack[0].route.stack[1].name).toEqual('bound getOne');
 
       // Module function export
       // router handler
@@ -87,7 +87,7 @@ describe('ExpressJoiRoutes', () => {
       // handler type
       expect(typeof routes.stack[1].route.stack[2].handle).toEqual('function');
       // handler name
-      expect(routes.stack[1].route.stack[2].name).toEqual('postOne');
+      expect(routes.stack[1].route.stack[2].name).toEqual('bound postOne');
 
       await request(app)
         .post('/foo/1')
@@ -114,7 +114,7 @@ describe('ExpressJoiRoutes', () => {
       // handler type
       expect(typeof routes.stack[0].route.stack[0].handle).toEqual('function');
       // handler name
-      expect(routes.stack[0].route.stack[0].name).toEqual('getOne');
+      expect(routes.stack[0].route.stack[0].name).toEqual('bound getOne');
 
       // Class method export
       // router handler
@@ -132,7 +132,7 @@ describe('ExpressJoiRoutes', () => {
       // handler type
       expect(typeof routes.stack[1].route.stack[1].handle).toEqual('function');
       // handler name
-      expect(routes.stack[1].route.stack[1].name).toEqual('postOne');
+      expect(routes.stack[1].route.stack[1].name).toEqual('bound postOne');
 
       // Module function export
       // router handler
@@ -150,7 +150,7 @@ describe('ExpressJoiRoutes', () => {
       // handler type
       expect(typeof routes.stack[2].route.stack[2].handle).toEqual('function');
       // handler name
-      expect(routes.stack[2].route.stack[2].name).toEqual('deleteOne');
+      expect(routes.stack[2].route.stack[2].name).toEqual('bound deleteOne');
 
       await request(app)
         .post('/foo/1/bar')
