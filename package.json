@@ -1,6 +1,6 @@
 {
   "name": "express-awesome-routes",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Package for express.js framework that allow to you santadarize your routes with the flexibility as you want.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
