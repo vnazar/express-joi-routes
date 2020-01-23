@@ -1,7 +1,7 @@
 {
-  "name": "express-awesome-routes",
+  "name": "express-joi-routes",
   "version": "1.0.0",
-  "description": "Package for express.js framework that allow to you santadarize your routes with the flexibility as you want.",
+  "description": "Package for express.js framework that allow to you standardize your routes, with @hapi/joi support.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vnazar/express-awesome-routes.git"
+    "url": "git+https://github.com/vnazar/express-joi-routes.git"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",

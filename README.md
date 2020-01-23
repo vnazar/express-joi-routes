@@ -1,12 +1,12 @@
-# Expres Awesome Routes
+# Express Joi Routes
 
-[![Build Status](https://travis-ci.org/vnazar/express-awesome-routes.svg?branch=master)](https://travis-ci.org/vnazar/express-awesome-routes) [![Coverage Status](https://coveralls.io/repos/github/vnazar/express-awesome-routes/badge.svg?branch=develop)](https://coveralls.io/github/vnazar/express-awesome-routes?branch=develop)
+[![Build Status](https://travis-ci.org/vnazar/express-joi-routes.svg?branch=master)](https://travis-ci.org/vnazar/express-joi-routes) [![Coverage Status](https://coveralls.io/repos/github/vnazar/express-joi-routes/badge.svg?branch=develop)](https://coveralls.io/github/vnazar/express-joi-routes?branch=develop)
 
 Package for express.js framework that allow to you santadarize your routes with the flexibility as you want.
 
 ## Table of Content
 
-- [Expres Awesome Routes](#expres-awesome-routes)
+- [Express Joi Routes](#express-joi-routes)
   - [Table of Content](#table-of-content)
   - [About](#about)
   - [Features](#features)
@@ -22,17 +22,17 @@ Package for express.js framework that allow to you santadarize your routes with 
       - [ValidationOptions](#validationoptions)
       - [Method](#method)
       - [ContainerTypes](#containertypes)
-    - [ExpressAwesomeRoutes([options])](#expressawesomeroutesoptions)
-        - [Arguments (Typed)](#arguments-typed)
-        - [Example](#example-1)
+    - [ExpressJoiRoutes([options])](#expressjoiroutesoptions)
+      - [Arguments (Typed)](#arguments-typed)
+      - [Example](#example-1)
       - [add(routes [, prefix][, middlewares])](#addroutes--prefix)
         - [Arguments (Typed)](#arguments-typed-1)
         - [Example](#example-2)
       - [getRoutes()](#getroutes)
         - [Example](#example-3)
     - [createRoutes(routes[,prefix][,middlewares])](#createroutesroutesprefix)
-        - [Arguments (Typed)](#arguments-typed-2)
-        - [Example](#example-4)
+      - [Arguments (Typed)](#arguments-typed-2)
+      - [Example](#example-4)
   - [License](#license)
 
 ## About
@@ -51,12 +51,12 @@ This library support the following features:
 ## Installation
 
 ```bash
-npm install express-awesome-routes --save
+npm install express-joi-routes --save
 ```
 
 ## Example
 
-Here is an example to use **express-awesome-routes** in the simplest way.
+Here is an example to use **express-joi-routes** in the simplest way.
 
 ### JavaScript
 
@@ -64,7 +64,7 @@ Here is an example to use **express-awesome-routes** in the simplest way.
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
-const { createRoutes, Method } = require('express-awesome-routes');
+const { createRoutes, Method } = require('express-joi-routes');
 
 class Controller {
   getOne(_req, res) {
@@ -96,7 +96,7 @@ app.listen(3000, () => {
 ```ts
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import { createRoutes, Method, Routes } from 'express-awesome-routes';
+import { createRoutes, Method, Routes } from 'express-joi-routes';
 
 class Controller {
   public getOne(_req: Request, res: Response): void {
@@ -128,7 +128,7 @@ app.listen(3000, () => {
 
 ### Routes definitions
 
-In **Express Awesome Routes** you can build your own routes using defined objects. This objects are defined in two types: **Route** and **ProxyRoute**.
+In **Express Joi Routes** you can build your own routes using defined objects. This objects are defined in two types: **Route** and **ProxyRoute**.
 
 #### Route
 
@@ -215,31 +215,31 @@ ContainerTypes.Fields;
 ContainerTypes.Params;
 ```
 
-### ExpressAwesomeRoutes([options])
+### ExpressJoiRoutes([options])
 
-Class that instance a ExpressAwesomeRoutes object allowing to you pass a set of options to configure it.
+Class that instance a ExpressJoiRoutes object allowing to you pass a set of options to configure it.
 
 ##### Arguments (Typed)
 
 ```ts
-ExpressAwesomeRoutes();
-ExpressAwesomeRoutes(options: ExpressAwesomeRoutesOptions);
+ExpressJoiRoutes();
+ExpressJoiRoutes(options: ExpressJoiRoutesOptions);
 ```
 
-| ExpressAwesomeRoutesOptions | Description                                                                                                                                                                                              |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| joiPassError                | Equivalent to [passError](https://www.npmjs.com/package/express-joi-validation#createvalidatorconfig) option of [express-joi-validation](https://www.npmjs.com/package/express-joi-validation) package.  |
-| joiStatusCode               | Equivalent to [statusCode](https://www.npmjs.com/package/express-joi-validation#createvalidatorconfig) option of [express-joi-validation](https://www.npmjs.com/package/express-joi-validation) package. |
+| ExpressJoiRoutesOptions | Description                                                                                                                                                                                              |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| joiPassError            | Equivalent to [passError](https://www.npmjs.com/package/express-joi-validation#createvalidatorconfig) option of [express-joi-validation](https://www.npmjs.com/package/express-joi-validation) package.  |
+| joiStatusCode           | Equivalent to [statusCode](https://www.npmjs.com/package/express-joi-validation#createvalidatorconfig) option of [express-joi-validation](https://www.npmjs.com/package/express-joi-validation) package. |
 
 ##### Example
 
 ```ts
-import { ExpressAwesomeRoutes } from 'express-awesome-routes';
+import { ExpressJoiRoutes } from 'express-joi-routes';
 
 // With default options
-const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
+const ejr: ExpressJoiRoutes = new ExpressJoiRoutes();
 // With options
-const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes({ passError: true, statusCode: 500 });
+const ejr: ExpressJoiRoutes = new ExpressJoiRoutes({ passError: true, statusCode: 500 });
 ```
 
 #### add(routes [, prefix][, middlewares])
@@ -263,9 +263,9 @@ add(routes: Routes, prefix: string, middlewares: any[]): void
 ##### Example
 
 ```ts
-import { ExpressAwesomeRoutes, Method } from 'express-awesome-routes';
+import { ExpressJoiRoutes, Method } from 'express-joi-routes';
 // imports...
-const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
+const ejr: ExpressJoiRoutes = new ExpressJoiRoutes();
 const routes: Routes = [
   {
     route: 'foo',
@@ -275,7 +275,7 @@ const routes: Routes = [
   },
 ];
 
-ear.add(routes, '/api/v1');
+ejr.add(routes, '/api/v1');
 ```
 
 #### getRoutes()
@@ -285,13 +285,13 @@ Method that return a `Router` object (Express.js `Router`) with the routes added
 ##### Example
 
 ```ts
-const router: Router = ear.getRoutes();
+const router: Router = ejr.getRoutes();
 app.use(router);
 ```
 
 ### createRoutes(routes[,prefix][,middlewares])
 
-Function that under the hood utilize [ExpressAwesomeRoutes]() class to create and get routes (`Router`) without call the above methods.
+Function that under the hood utilize [ExpressJoiRoutes]() class to create and get routes (`Router`) without call the above methods.
 
 ##### Arguments (Typed)
 
@@ -310,7 +310,7 @@ add(routes: Routes, prefix: string, middlewares: any[]): Router
 ##### Example
 
 ```ts
-import { createRoutes, Method } from 'express-awesome-routes';
+import { createRoutes, Method } from 'express-joi-routes';
 // imports, express instance, etc.
 
 const routes: Routes = [

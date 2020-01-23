@@ -1,4 +1,4 @@
-import { ExpressAwesomeRoutes } from '../src';
+import { ExpressJoiRoutes } from '../src';
 import * as sampleRoutes from './_fixtures/sampleRoutes';
 import request from 'supertest';
 import express, { Express } from 'express';
@@ -9,7 +9,7 @@ import bodyParser from 'body-parser';
 let app: Express;
 
 // Based on tests of express-routes-mapper library (https://github.com/aichbauer/express-routes-mapper).
-describe('ExpressAwesomeRoutes', () => {
+describe('ExpressJoiRoutes', () => {
   describe('+add()', () => {
     beforeEach(() => {
       app = express();
@@ -17,7 +17,7 @@ describe('ExpressAwesomeRoutes', () => {
     });
 
     it('load simple routes (first level routes, without validations nor middlewares) succesfully.', () => {
-      const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
+      const ear: ExpressJoiRoutes = new ExpressJoiRoutes();
       ear.add(sampleRoutes.routes1);
       const routes: Router = ear.getRoutes();
       app.use(routes);
@@ -48,7 +48,7 @@ describe('ExpressAwesomeRoutes', () => {
     });
 
     it('load complex routes (first level routes, with validation and middleware) succesfully.', async () => {
-      const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
+      const ear: ExpressJoiRoutes = new ExpressJoiRoutes();
       ear.add(sampleRoutes.routes2);
       const routes: Router = ear.getRoutes();
       app.use(routes);
@@ -101,7 +101,7 @@ describe('ExpressAwesomeRoutes', () => {
     });
 
     it('load complex routes (nested routes with middlewares and validations) succesfully.', async () => {
-      const ear: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
+      const ear: ExpressJoiRoutes = new ExpressJoiRoutes();
       ear.add(sampleRoutes.routes3);
       const routes: Router = ear.getRoutes();
       app.use(routes);

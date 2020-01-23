@@ -1,5 +1,5 @@
 import {
-  ExpressAwesomeRoutes,
+  ExpressJoiRoutes,
   ContainerTypes,
   Method,
   ValidatorOptions,
@@ -8,10 +8,10 @@ import {
   Routes,
   createRoutes,
   ExpressJoiContainerConfig,
-} from './express-awesome-routes';
+} from './express-joi-routes';
 
 export {
-  ExpressAwesomeRoutes,
+  ExpressJoiRoutes,
   ContainerTypes,
   Method,
   ValidatorOptions as ValidatorOpts,

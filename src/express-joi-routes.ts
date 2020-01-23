@@ -79,16 +79,16 @@ function _isDefined<T>(val: T | undefined | null): val is T {
   return typeof (val as T) !== 'undefined' && typeof (val as T) !== null;
 }
 
-export interface ExpressAwesomeRoutesOptions {
+export interface ExpressJoiRoutesOptions {
   joiPassError?: boolean;
   joiStatusCode?: number;
 }
 
-export class ExpressAwesomeRoutes {
+export class ExpressJoiRoutes {
   private readonly _router: Router;
-  private readonly _options: ExpressAwesomeRoutesOptions;
+  private readonly _options: ExpressJoiRoutesOptions;
 
-  public constructor(options?: ExpressAwesomeRoutesOptions) {
+  public constructor(options?: ExpressJoiRoutesOptions) {
     this._options = options || {};
     this._options.joiPassError = options?.joiPassError || false;
     this._options.joiStatusCode = options?.joiStatusCode || 400;
@@ -143,7 +143,7 @@ export class ExpressAwesomeRoutes {
    * @param {Router} router
    * @param {string} [path]
    * @param {any[]} [middlewares]
-   * @memberof ExpressAwesomeRoutes
+   * @memberof ExpressJoiRoutes
    */
   private _loadRoutes(routes: Routes, router: Router, path?: string, middlewares?: RequestHandler[]): void {
     routes.forEach((route: Route | ProxyRoute) => {
@@ -181,17 +181,17 @@ export function createRoutes(routes: Routes): Router;
 export function createRoutes(routes: Routes, prefix: string): Router;
 export function createRoutes(routes: Routes, prefix: string, middlewares: any[]): Router;
 export function createRoutes(routes: Routes, prefix?: string, middlewares?: any[]): Router {
-  const expressAwesomeRoutes: ExpressAwesomeRoutes = new ExpressAwesomeRoutes();
+  const expressJoiRoutes: ExpressJoiRoutes = new ExpressJoiRoutes();
 
   if (middlewares !== undefined && prefix !== undefined) {
-    expressAwesomeRoutes.add(routes, prefix, middlewares);
-    return expressAwesomeRoutes.getRoutes();
+    expressJoiRoutes.add(routes, prefix, middlewares);
+    return expressJoiRoutes.getRoutes();
   } else if (prefix !== undefined) {
-    expressAwesomeRoutes.add(routes, prefix);
-    return expressAwesomeRoutes.getRoutes();
+    expressJoiRoutes.add(routes, prefix);
+    return expressJoiRoutes.getRoutes();
   } else {
-    expressAwesomeRoutes.add(routes);
-    return expressAwesomeRoutes.getRoutes();
+    expressJoiRoutes.add(routes);
+    return expressJoiRoutes.getRoutes();
   }
 }
 
