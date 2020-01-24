@@ -9,13 +9,13 @@ export const routes1: Routes = [
     route: '/foo',
     method: Method.Get,
     controller: ClassController,
-    function: 'getOne',
+    handler: 'getOne',
   },
   {
     route: '/foo/:id',
     method: Method.Delete,
     controller: ModuleController,
-    function: 'deleteOne',
+    handler: 'deleteOne',
   },
 ];
 
@@ -37,14 +37,14 @@ export const routes2: Routes = [
     route: '/foo',
     method: Method.Get,
     controller: ClassController,
-    function: 'getOne',
+    handler: 'getOne',
     middlewares: [mw1],
   },
   {
     route: '/foo/:id',
     method: Method.Post,
     controller: ModuleController,
-    function: 'postOne',
+    handler: 'postOne',
     middlewares: [mw1],
     validators: [{ type: ContainerTypes.Body, schema: schemaA }],
   },
@@ -55,7 +55,7 @@ const routes3Child1Child: Routes = [
     route: '/bar',
     method: Method.Post,
     controller: ModuleController,
-    function: 'postOne',
+    handler: 'postOne',
     validators: [{ type: ContainerTypes.Body, schema: schemaA }],
   },
 ];
@@ -67,14 +67,14 @@ const routes3Child1: Routes = [
   },
 ];
 
-const routes3Child2: Routes = [{ route: '/', method: Method.Delete, controller: ModuleController, function: 'deleteOne' }];
+const routes3Child2: Routes = [{ route: '/', method: Method.Delete, controller: ModuleController, handler: 'deleteOne' }];
 
 export const routes3: Routes = [
   {
     route: '/foo',
     method: Method.Get,
     controller: ClassController,
-    function: 'getOne',
+    handler: 'getOne',
   },
   { route: '/foo', subRoutes: routes3Child1 },
   { route: '/bar', subRoutes: routes3Child2, middlewares: [mw1, mw2] },
@@ -85,6 +85,6 @@ export const routeWithWrongMethod: Routes = [
     route: '/foo',
     method: Method.Get,
     controller: ClassController,
-    function: 'wrongMethod',
+    handler: 'wrongMethod',
   },
 ];
