@@ -1,6 +1,10 @@
 # Express Joi Routes
 
-[![Build Status](https://travis-ci.org/vnazar/express-joi-routes.svg?branch=master)](https://travis-ci.org/vnazar/express-joi-routes) [![Coverage Status](https://coveralls.io/repos/github/vnazar/express-joi-routes/badge.svg)](https://coveralls.io/github/vnazar/express-joi-routes)
+[![npm version][npm-img]][npm-url]
+[![npm downloads][downloads-img]][downloads-url]
+[![build status][build-img]][build-url]
+[![converage status][coveralls-img]][coveralls-url]
+[![license][license-img]][license-url]
 
 Module for Express.js that allows you to standardize your routes and validate their content with [@happi/joi](https://github.com/hapijs/joi).
 
@@ -19,20 +23,21 @@ Module for Express.js that allows you to standardize your routes and validate th
       - [Route](#route)
       - [ProxyRoute](#proxyroute)
       - [Routes](#routes)
-      - [ValidationOptions](#validationoptions)
-      - [Method](#method)
-      - [ContainerTypes](#containertypes)
+      - [Example](#example-1)
+    - [ValidationOptions](#validationoptions)
+    - [Method](#method)
+    - [ContainerTypes](#containertypes)
     - [ExpressJoiRoutes([options])](#expressjoiroutesoptions)
       - [Arguments (Typed)](#arguments-typed)
-      - [Example](#example-1)
-      - [add(routes [,prefix][,middlewares])](#addroutes-prefix)
+      - [Example](#example-2)
+      - [add(routes[,prefix][,middlewares])](#addroutesprefix)
         - [Arguments (Typed)](#arguments-typed-1)
-        - [Example](#example-2)
-      - [getRoutes()](#getroutes)
         - [Example](#example-3)
+      - [getRoutes()](#getroutes)
+        - [Example](#example-4)
     - [createRoutes(routes[,prefix][,middlewares])](#createroutesroutesprefix)
       - [Arguments (Typed)](#arguments-typed-2)
-      - [Example](#example-4)
+      - [Example](#example-5)
   - [License](#license)
 
 ## About
@@ -43,7 +48,7 @@ The motivation to use this package is improve the maintainability of your code a
 
 This library support the following features:
 
-- Declare **routes**.
+- Create **routes**.
 - Add **middleware(s)** to routes.
 - Add **Joi validators (@happi/joi)** to routes.
 - Set prefix to your routes.
@@ -81,7 +86,7 @@ const routes = [
     route: '/foo',
     method: Method.Get,
     controller: Controller,
-    function: 'getOne',
+    handler: 'getOne',
   },
 ];
 
@@ -114,7 +119,7 @@ const routes: Routes = [
     route: '/foo',
     method: Method.Get,
     controller: Controller,
-    function: 'getOne',
+    handler: 'getOne',
   },
 ];
 
@@ -128,7 +133,7 @@ app.listen(3000, () => {
 
 ### Routes definitions
 
-In **Express Joi Routes** you can build your own routes using defined objects. This objects are defined in two types: **Route** and **ProxyRoute**.
+In **Express Joi Routes** you can build your own routes using defined objects. The composition of these objects allows to you implement your routes with the flexibility as you want.
 
 #### Route
 
@@ -137,7 +142,7 @@ export interface Route {
   route: string;
   method: Method;
   controller: any;
-  function: string;
+  handler: string;
   middlewares?: RequestHandler[];
   validators?: ValidatorOptions[];
 }
@@ -159,7 +164,40 @@ export interface ProxyRoute {
 type Routes = Array<Route | ProxyRoute>;
 ```
 
-#### ValidationOptions
+#### Example
+
+```ts
+import { Routes, Method } from 'express-joi-routes';
+import { FooController } from 'controllers';
+
+const fooRoutes: Routes = [
+  {
+    route: '',
+    method: Method.Post,
+    controller: FooController,
+    handler: 'postOne',
+  },
+  {
+    route: '/:id',
+    method: Method.Get,
+    controller: FooController,
+    handler: 'getOne',
+  },
+];
+
+const mainRoutes: Routes = [
+  {
+    route: '/foo',
+    subRoutes: fooRoutes,
+  },
+];
+
+// Equivalent to:
+// POST   /foo
+// GET    /foo/:id
+```
+
+### ValidationOptions
 
 ```ts
 interface ValidatorOptions {
@@ -169,7 +207,7 @@ interface ValidatorOptions {
 }
 ```
 
-#### Method
+### Method
 
 Object (enum in TS) that includes all HTTP methods (supported by [express.js 4.x](https://expressjs.com/en/4x/api.html#app.METHOD)).
 
@@ -203,7 +241,7 @@ Method.Search;
 Method.Connnect;
 ```
 
-#### ContainerTypes
+### ContainerTypes
 
 Object (enum in TS) that includes the validation types (see [express-joi-validation](https://www.npmjs.com/package/express-joi-validation)).
 
@@ -242,7 +280,7 @@ const ejr: ExpressJoiRoutes = new ExpressJoiRoutes();
 const ejr: ExpressJoiRoutes = new ExpressJoiRoutes({ passError: true, statusCode: 500 });
 ```
 
-#### add(routes [,prefix][,middlewares])
+#### add(routes[,prefix][,middlewares])
 
 Method that add(s) route(s) to `Router` object (Express.js `Router`), passing the following arguments:
 
@@ -271,7 +309,7 @@ const routes: Routes = [
     route: 'foo',
     method: Method.Get,
     controller: ControllerClass,
-    function: 'getOne',
+    handler: 'getOne',
   },
 ];
 
@@ -318,7 +356,7 @@ const routes: Routes = [
     route: 'foo',
     method: Method.Get,
     controller: ControllerClass,
-    function: 'getOne',
+    handler: 'getOne',
   },
 ];
 
@@ -328,4 +366,15 @@ app.use(router);
 
 ## License
 
-MIT
+[MIT](LICENSE)
+
+[npm-img]: https://img.shields.io/npm/v/express-joi-routes.svg?color=red
+[npm-url]: https://www.npmjs.com/package/express-joi-routes
+[downloads-img]: https://img.shields.io/npm/dm/express-joi-routes.svg
+[downloads-url]: https://www.npmjs.com/package/express-joi-routes
+[build-img]: https://travis-ci.org/vnazar/express-joi-routes.svg?branch=master
+[build-url]: https://travis-ci.org/vnazar/express-joi-routes
+[coveralls-img]: https://coveralls.io/repos/github/vnazar/express-joi-routes/badge.svg
+[coveralls-url]: https://coveralls.io/github/vnazar/express-joi-routes
+[license-img]: https://img.shields.io/github/license/vnazar/express-joi-routes.svg?color=blue
+[license-url]: https://github.com/vnazar/express-joi-routes/blob/master/LICENSE
