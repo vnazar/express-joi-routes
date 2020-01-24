@@ -18,7 +18,7 @@ const routes: Routes = [
     route: '/foo',
     method: Method.Get,
     controller: Controller,
-    function: 'getOne',
+    handler: 'getOne',
   },
 ];
 
