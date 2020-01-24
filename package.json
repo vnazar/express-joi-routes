@@ -21,6 +21,13 @@
     "express": "^4.16.4",
     "express-joi-validation": "^4.0.3"
   },
+  "keywords": [
+    "routes",
+    "express",
+    "joi",
+    "validation",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vnazar/express-joi-routes.git"
