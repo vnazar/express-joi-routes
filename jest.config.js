@@ -5,5 +5,5 @@ module.exports = {
     "^.+\\.(ts|tsx)$": "ts-jest"
   },
   testMatch: ["**/test/*.(ts|tsx)"],
-
+  coveragePathIgnorePatterns: ["test/_fixtures"]
 };
