@@ -1,6 +1,6 @@
 {
   "name": "express-joi-routes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Module for Express.js that allows you to standardize your routes and validate their content with Joi.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
